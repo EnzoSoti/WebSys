@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capstone Title Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Rubik', sans-serif;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            background-image: url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?q=80&w=1470&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 35px;
+            border-radius: 8px;
+            background-color: rgba(25, 25, 30, 0.85);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(90, 90, 100, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #999;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #e0e0e0;
+            margin-bottom: 8px;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        h6 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #888;
+            font-weight: 400;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 500;
+            color: #bbb;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            margin-bottom: 25px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background-color: rgba(40, 40, 45, 0.7);
+            color: #e0e0e0;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3d7dff;
+            box-shadow: 0 0 0 3px rgba(61, 125, 255, 0.2);
+            background-color: rgba(45, 45, 50, 0.9);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            border: 0;
+            background: linear-gradient(135deg, #3d7dff 0%, #2b5cc5 100%);
+            color: #fff;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #444;
+            background-color: transparent;
+            color: #aaa;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 16px;
+            margin-top: 12px;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #3569da 0%, #1f489e 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(61, 125, 255, 0.3);
+        }
+
+        .btn-reset:hover {
+            background-color: rgba(60, 60, 70, 0.5);
+            color: #ddd;
+        }
+
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 6px;
+            background-color: rgba(35, 35, 40, 0.7);
+            display: none;
+            animation: fadeIn 0.5s ease;
+            border-left: 3px solid #3d7dff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title-item {
+            padding: 14px 15px;
+            margin-bottom: 10px;
+            border-left: 3px solid #3d7dff;
+            background-color: rgba(40, 40, 45, 0.6);
+            border-radius: 4px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .title-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            background-color: rgba(45, 45, 50, 0.8);
+        }
+
+        .title-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .loading {
+            text-align: center;
+            margin-top: 25px;
+            display: none;
+        }
+
+        .spinner {
+            border: 4px solid rgba(61, 125, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-left-color: #3d7dff;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #titlesList h3 {
+            color: #bbb;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Capstone Title Generator</h1>
+        <h6>Powered by: Gemini | Developed by: Enzo Daniela</h6>
+        
+        <form id="titleForm">
+            <label for="idea">Enter your capstone concept</label>
+            <input type="text" name="idea" id="idea" required placeholder="e.g., AI-powered security system">
+            <button type="submit" class="btn-login">Generate Titles</button>
+            <button type="reset" class="btn-reset">Reset</button>
+        </form>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Crafting powerful titles...</p>
+        </div>
+        
+        <div id="results">
+            <h3>Suggested Titles:</h3>
+            <div id="titlesList"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "AIzaSyCdGb4S_8IETl7N7WRu6h1hmEOd4YWMjQs";
+        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+        
+        document.getElementById('titleForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const ideaInput = document.getElementById('idea');
+            const idea = ideaInput.value.trim();
+            
+            if (!idea) {
+                alert('Please enter a capstone idea');
+                return;
+            }
+            
+            const loadingDiv = document.getElementById('loading');
+            const resultsDiv = document.getElementById('results');
+            const titlesList = document.getElementById('titlesList');
+            
+            // loading animation
+            loadingDiv.style.display = 'block';
+            resultsDiv.style.display = 'none';
+            titlesList.innerHTML = '';
+            
+            try {
+                const titles = await generateTitles(idea);
+                
+                // Hide loading and show results
+                loadingDiv.style.display = 'none';
+                resultsDiv.style.display = 'block';
+                
+                // Display the titles
+                titles.forEach((title, index) => {
+                    const titleElement = document.createElement('div');
+                    titleElement.className = 'title-item';
+                    titleElement.textContent = `${index + 1}. ${title}`;
+                    titlesList.appendChild(titleElement);
+                });
+                
+            } catch (error) {
+                loadingDiv.style.display = 'none';
+                alert('Error generating titles: ' + error.message);
+                console.error('Error:', error);
+            }
+        });
+        
+        async function generateTitles(idea) {
+            const prompt = `Generate 5 powerful, bold, and innovative capstone project titles based on this idea: "${idea}". 
+            Make them concise (under 10 words), impactful, and suitable for an advanced technical project. 
+            Format as a simple list with no additional text or explanations.`;
+            
+            const requestBody = {
+                contents: [{
+                    parts: [{
+                        text: prompt
+                    }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 256,
+                }
+            };
+            
+            const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || 'Failed to generate titles');
+            }
+            
+            const data = await response.json();
+            const generatedText = data.candidates[0].content.parts[0].text;
+            
+            // Process the response to extract just the titles
+            return extractTitles(generatedText);
+        }
+        
+        function extractTitles(text) {
+            // Split by newlines and filter out empty lines
+            const lines = text.split('\n').filter(line => line.trim() !== '');
+            
+            // Remove numbered lists (1., 2., etc.) if present
+            return lines.map(line => {
+                return line.replace(/^\d+[\.\)]\s*/, '').trim();
+            });
+        }
+        
+        // Reset form and clear results
+        document.querySelector('.btn-reset').addEventListener('click', function() {
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
