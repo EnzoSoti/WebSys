@@ -270,7 +270,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Capstone Title Forge</h1>
+        <h1>Capstone Title Generator</h1>
         <h6>Powered by: Gemini | Developed by: Enzo Daniela</h6>
         
         <form id="titleForm">
@@ -293,7 +293,7 @@
 
     <script>
         const API_KEY = "AIzaSyCdGb4S_8IETl7N7WRu6h1hmEOd4YWMjQs";
-        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+        const API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent";
         
         document.getElementById('titleForm').addEventListener('submit', async function(e) {
             e.preventDefault();
